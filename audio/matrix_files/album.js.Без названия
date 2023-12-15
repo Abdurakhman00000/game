@@ -1,0 +1,19 @@
+var new_songs_in_playlist=false;var moreOptionsBarDisplayed=false;var updateSeeAllSongPlaylist=false;function load_more_items(type,preview){preview=typeof preview!=='undefined'?preview:true;var url="";switch(type){case 'song':url=base+extrabase+"/index.php?option=com_muscol&task=get_album_songs&id="+album_id;break;}
+jQuery('div#loadmoreajaxloader_'+type).show();jQuery.ajax({url:url,dataType:'json',success:function(result)
+{if(result.length)
+{render_songs_album(result);store_album_playlist(result);fill_album_playlist(result);}else
+{jQuery('#'+type+'s .no-more-entries').removeClass('hide');}},complete:function()
+{jQuery('div#loadmoreajaxloader_'+type).hide();}});}
+function load_compilation_albums(){var url=base+extrabase+"/index.php?option=com_muscol&task=get_compilation_albums&id="+album_id;var type='album';jQuery('div#loadmoreajaxloader_'+type).show();jQuery.ajax({url:url,dataType:'json',success:function(result)
+{if(result.length)
+{render_items(result);}else
+{jQuery('#compilation-albums').hide();}},complete:function()
+{jQuery('div#loadmoreajaxloader_'+type).hide();}});}
+function load_chronology_albums(){var url=base+extrabase+"/index.php?option=com_muscol&task=get_chronology_albums&id="+album_id;var type='album';jQuery.ajax({url:url,dataType:'json',success:function(result)
+{if(result.length)
+{render_items(result,'#chronology-albums');}else
+{jQuery('#chronology-albums').hide();}},complete:function()
+{}});}
+function render_songs_album(data){var there_are_songs=false;jQuery.each(data,function(index,value){if(!displayplayer)value.isplayable=0;if(value.item_type=="song")value.lastPlaylists=lastPlaylists;render_song_album(value);if(value.item_type=="song"&&value.isplayable)there_are_songs=true;});if(there_are_songs&&!player_created){if(typeof create_player=='function')create_player();new_songs_in_playlist=false;}
+jQuery('[data-toggle="tooltip"]').tooltip();}
+function render_song_album(data){var source=jQuery("#song-template").html();var template=Handlebars.compile(source);var context=data;var html=template(context);jQuery("#songs-album-"+data.album_id).append(html);if(data.item_type=="song"&&data.isplayable){if(typeof jw_playlist_search!=='undefined')jw_playlist_search.push(playlist_object(data));new_songs_in_playlist=true;}}

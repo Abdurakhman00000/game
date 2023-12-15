@@ -1,0 +1,142 @@
+*,*:before,*:after {
+    padding: 0 100px;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+.html,body {
+    height: 100%;
+    background-color: #333;
+    font-family: consolas, monospace;
+    color: #fff;
+    font-size: 16px;
+}
+
+a{text-decoration: none;}
+
+.wrapper {
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+.game{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: url(./img/Star\ 1.png) 24 24, auto;
+}
+.game__body{}
+.game__items{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.game__body:before,
+.game__body:after,
+.game__items:before,
+.game__items:after{
+    content: "";
+    pointer-events: all;
+    width: 33.333vh;
+    height: 33.333vh;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+}
+
+.game__body:before {
+    /* background-image: url(./img/Star\ 1.png); */
+    background-color: rgb(59, 80, 99);
+    border-radius: 50%;
+    animation: fly_1 11s infinite;
+}
+
+.game__body:after {
+    background-color: rgb(0, 0, 0);
+    border-radius: 0 200% 0 200%;
+    animation: fly_2 9s infinite;
+}
+
+.game__items:before {
+    background-color: rgb(0, 0, 0);
+    border-radius: 250% 0 250% 0;
+    animation: fly_3 9s infinite;
+}
+
+.game__items:after {
+    background-color: rgb(128, 0, 0);
+    border-radius: 50%;
+    animation: fly_4 4s infinite;
+}
+
+@keyframes fly_1 {
+    25% {transform: translate(66.667vw, 0vh);}
+    50% {transform: translate(66.667vw, 66.667vh);}
+    75% {transform: translate(0vw, 66.667vh);}
+    0%, 100% {transform: translate(0px, 0px);}
+}
+
+@keyframes fly_2 {
+    25% {transform: translate( 0vw, 66.667vh);}
+    50% {transform: translate(66.667vw, 0vh);}
+    75% {transform: translate(66.667vw, 66.667vh);}
+    0%, 100% {transform: translate(0px, 0px);}
+}
+
+@keyframes fly_3 {
+    25% {transform: translate(66.667vw, 0vh);}
+    50% {transform: translate(0vw, 66.667vh);}
+    75% {transform: translate(66.667vw, 66.667vh);}
+    0%, 100% {transform: translate(0px, 0px);}
+}
+
+@keyframes fly_4 {
+    25% {transform: translate(66.667vw, 0vh);}
+    50% {transform: translate(0vw, 66.667vh);}
+    75% {transform: translate(66.667vw, 66.667vh);}
+    0%, 100% {transform: translate(0px, 0px);}
+}
+
+
+.game__body:hover:before,
+.game__body:hover:after,
+.game__body:hover .game__items:before,
+.game__body:hover .game__items:after {
+    display: none;
+}
+
+.game__body:hover .game__items {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    pointer-events: all;
+}
+
+
+.game__body:hover .game__text {
+    visibility: visible;
+}
+
+.game__text{
+    font-size: 40px;
+    visibility: hidden;
+}

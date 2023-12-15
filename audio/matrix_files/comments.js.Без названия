@@ -1,0 +1,13 @@
+var start_comment=0;var pagination_step_comment=5;var isloading_comment=true;function load_comments(type,reference_id){var url=base+extrabase+"/index.php?option=com_muscol&task=get_comments&type="+type+"&id="+reference_id+"&limitstart="+start_comment+"&limit="+pagination_step_comment;jQuery('div#loadmoreajaxloader_comment').show();jQuery('#load-comments-button').button('loading');jQuery.ajax({url:url,dataType:'json',success:function(result)
+{if(result.length)
+{render_comments(result,'#comments');}else
+{more_items_comment=false;jQuery('#load-comments-button').hide();}},complete:function()
+{jQuery('div#loadmoreajaxloader_comment').hide();jQuery('#load-comments-button').button('reset');start_comment+=pagination_step_comment;isloading_comment=false;}});}
+function render_comments(data,container_id,prepend){if(typeof container_id==='undefined')container_id=undefined;if(typeof prepend==='undefined')prepend=false;jQuery.each(data,function(index,value){render_comment(value,container_id,prepend);});}
+function render_comment(data,container_id,prepend){if(typeof container_id==='undefined')container_id="#comments";var source=jQuery("#comment-template").html();var template=Handlebars.compile(source);var context=data;var html=template(context);if(prepend)jQuery(container_id).prepend(html);else jQuery(container_id).append(html);}
+function post_comment(){var url=base+extrabase+"/index.php?option=com_muscol&task=save_comment";jQuery('#post-comment-button').button('loading');jQuery.ajax({url:url,dataType:'json',method:'POST',data:{comment:jQuery('#comment-box').val(),album_id:reference_id,type:comment_type},success:function(result)
+{notifyMessages(result.notifications);jQuery('#comment-box').val('');if(result.content.length)
+{render_comments(result.content,'#comments',true);}else
+{}},complete:function()
+{jQuery('#post-comment-button').button('reset');}});}
+jQuery(document).ready(function(){jQuery("#comment-box").focus(function(){jQuery("#comment-buttons").removeClass('hide');});});

@@ -1,0 +1,4 @@
+function load_module_albums(module_id,url_append){var url=base+extrabase+"/index.php?option=com_muscol&task=get_module_data&module_id="+module_id+url_append;var type='album';jQuery('div#loadmoreajaxloader_album_module').show();jQuery.ajax({url:url,dataType:'json',success:function(result)
+{if(result.length)
+{render_items(result,'#results-module-'+module_id);}},complete:function()
+{jQuery('div#loadmoreajaxloader_album_module-'+module_id).hide();}});}
